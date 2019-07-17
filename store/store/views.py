@@ -23,10 +23,3 @@ def fetch_store(request, storenum):
 
     return Response(serializer.data)
 
-
-@api_view
-def fetch_store(request):
-    stores = Storedb.objects.all()
-    serializer = StoreSerializer(stores, context={'request': request}, many=True)
-
-    return Response(serializer.data)

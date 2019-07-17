@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@r^r&%#38bs&7)rp89s5v8$cg9)kcnj5x&l-e_%ljz0j_(3i0q'
+SECRET_KEY = 'jc2))n(mxyl&0(x7i@exx)u1w@&ogw0eqo2jeyy*^@%$md8k9l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -125,8 +125,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
-
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
-}

@@ -6,4 +6,3 @@ class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Storedb
         fields = '__all__'
-
