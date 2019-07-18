@@ -1,0 +1,26 @@
+ . git에서 처음 한번만 받을 때 이 과정을 따를 것.
+
+ . 파이참 실행 
+ . create new project/open/check out from version control 메뉴 중에서 check out from version control 선택
+ . 만약 이전에 실행된 적이 있어 프로젝트가 바로 실행이 되면 file-close project 하여 처음 화면으로 돌아감.
+ . git 선택하여 clone repository 창이 뜨면 git로그인 
+ . URL 에서 Test-server.git 선택하고 옆에 Test버튼 클릭
+ . Directory는 적절하게 생성바람.
+ . VCS-Git-branches-origin/django-server-rebase current onto selected
+ . 실행할 때마다 git로그인이 귀찮으면 File-settings-version control-github-add(+)
+ . 가상환경 만들기
+ . 파이참 창아래 python console/terminal/todo 기타등등 terminal선택
+ . python -m venv venv 입력
+ . 왼쪽 트리에서 venv폴더가 생성된 걸 확인가능
+ . 다음은 인터프리터 설정과 장고, 오라클 라이브러리, rest-framework 설치
+ . File-settings-project:XXXXXX-project Interpreter-project Interpreter입력창 옆에 설정버튼 클릭- add클릭-ok클릭
+ . Latest version옆에 +클릭하여 검색 창에 django 입력 version 2.2.3버전(2019/7/18일자) 확인 후 install package 클릭
+ . 설치 후 cx-Oracle 검색 후 version 7.2.0 확인 후 install package 클릭
+ . 설치 후 django-rest-framework 검색 후 version 0.1.0 확인후 install package클릭
+ . 창 닫고 apply - ok 후 창 닫기
+ . 혹시 different sdk name 발생시 project interpreter입력창에서 show all 클릭 목록창 다 지우고 add(+)
+ . Existing environment선택 후 ... 클릭하여 경로지정해줌. venv\Scripts\python.exe
+ . terminal에서 cd venv 입력 / cd Scripts 입력 / activate 입력하여 가상환경 진입 프롬프트가 (venv)현재경로 > 이렇게 바뀜
+ . 다시 terminal에서 cd.. / cd.. /cd store 입력 후 
+ . python manage.py runserver 입력 /서버 작동
+ . http://127.0.0.1:8000/store 입력하면 브라우저에서 확인가능
