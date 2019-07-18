@@ -10,7 +10,7 @@
  . 실행할 때마다 git로그인이 귀찮으면 File-settings-version control-github-add(+)
  . 가상환경 만들기
  . 파이참 창아래 python console/terminal/todo 기타등등 terminal선택
- . python -m venv venv 입력
+ . cd store / python -m venv venv 입력
  . 왼쪽 트리에서 venv폴더가 생성된 걸 확인가능
  . 다음은 인터프리터 설정과 장고, 오라클 라이브러리, rest-framework 설치
  . File-settings-project:XXXXXX-project Interpreter-project Interpreter입력창 옆에 설정버튼 클릭- add클릭-ok클릭
