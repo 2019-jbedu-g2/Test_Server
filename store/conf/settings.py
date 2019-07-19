@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'store',
     'rest_framework',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +69,7 @@ TEMPLATES = [
         },
     },
 ]
-
+ASGI_APPLICATION = 'conf.routing.application'
 WSGI_APPLICATION = 'conf.wsgi.application'
 
 
@@ -129,4 +130,15 @@ STATIC_URL = '/static/'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
+}
+redis_host = os.environ.get('REDIS_HOST','localhost')
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+       # "ROUTING": "store.routing.websocket_urlpatterns"
+    },
 }

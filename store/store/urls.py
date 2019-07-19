@@ -16,4 +16,5 @@ urlpatterns = [
     path('<storenum>/', fetch_store),
     # path('<storenum>/', CreateBarcode),
     # path('', fetch_store)
+    path('<t>/',views.test)
 ]

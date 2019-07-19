@@ -7,6 +7,9 @@ from rest_framework import viewsets
 from .serializers import StoreSerializer
 # Create your views here.
 
+def test(request):
+ #   charSocket =
+    return
 
 def index(request, storename):
     return HttpResponse("Hello, world. You're at the {} index".format(storename))
