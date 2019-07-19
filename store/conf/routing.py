@@ -4,12 +4,10 @@ import store.routing
 from django.conf.urls import url, include
 application = ProtocolTypeRouter({
     #http->django views is added by default
-    'websocket': AuthMiddlewareStack(
-        URLRouter(
-            store.routing.websocket_urlpatterns
+    'websocket':URLRouter(
+            store.routing.urlpatterns
         )
-    )
 })
 urlpatterns = [
-    url(r'^test', include(store.urls))
+    url(r'^', include('store.urls'))
 ]

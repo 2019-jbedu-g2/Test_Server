@@ -7,6 +7,9 @@ class Queuecheck(WebsocketConsumer):
     #websocket이 연결 되었을때 행해질 메소드
     def connect(self):
         self.accept()
+        self.send(text_data=json.dums({
+            'test': '테스트',
+        }))
     #연결이 끊길 경우.
     def disconnect(self):
         pass

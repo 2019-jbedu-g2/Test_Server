@@ -8,8 +8,7 @@ from .serializers import StoreSerializer
 # Create your views here.
 
 def test(request):
- #   charSocket =
-    return
+    return render(request,'store/index.html',{})
 
 def index(request, storename):
     return HttpResponse("Hello, world. You're at the {} index".format(storename))

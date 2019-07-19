@@ -4,7 +4,7 @@ from .views import StoreViewSet
 from . import views
 from .views import fetch_store, CreateBarcode
 from rest_framework.routers import DefaultRouter
-
+from . import queue
 
 router = DefaultRouter()
 router.register(r'', StoreViewSet, basename='store')
@@ -16,5 +16,5 @@ urlpatterns = [
     path('<storenum>/', fetch_store),
     # path('<storenum>/', CreateBarcode),
     # path('', fetch_store)
-    path('<t>/',views.test)
+    url(r'^test/', queue.Queuecheck),
 ]

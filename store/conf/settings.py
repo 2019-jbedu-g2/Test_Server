@@ -139,6 +139,7 @@ CHANNEL_LAYERS = {
         "CONFIG": {
             "hosts": [('127.0.0.1', 6379)],
         },
-       # "ROUTING": "store.routing.websocket_urlpatterns"
+        #"ROUTING": "store.routing.websocket_routing"
+        "ROUTING": "store.routing.websocket_urlpatterns"
     },
 }
