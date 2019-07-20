@@ -15,10 +15,10 @@ urlpatterns = [
     # path('<int:pk>/', views.index),
 
     # api_view url
-    path('', views.store_list),
-    path('<int:pk>/', views.store_detail),
+    # path('', views.store_list),
+    # path('<int:pk>/', views.store_detail),
 
     # APIView url
-    # path('', views.StoreList.as_view()),
-    # path('<int:pk>/', views.StoreDetail.as_view())
+    path('', views.StoreList.as_view()),
+    path('<int:pk>/', views.StoreDetail.as_view())
 ]

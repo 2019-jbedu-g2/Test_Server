@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'store',
     'waiting',
+    'account',
 ]
 
 MIDDLEWARE = [
