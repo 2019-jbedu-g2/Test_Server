@@ -17,6 +17,8 @@ urlpatterns = [
     # api_view url
     path('', views.waiting_list),
     path('<int:pk>/', views.createbarcode),
+    path('<int:pk>/<int:barcode>/', views.updatewaiting),
+    path('confirm/<int:pk>/<int:barcode>/', views.waitingconfirm)
 
     # APIView url
     # path('', views.WaitingList.as_view()),

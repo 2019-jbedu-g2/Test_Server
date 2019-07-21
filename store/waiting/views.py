@@ -32,7 +32,6 @@ import datetime
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def createbarcode(request, pk):
-
     store = Storedb.objects.get(storenum=pk)
     barcode = int(t.time())
     createtime = datetime.datetime.now()
@@ -40,8 +39,34 @@ def createbarcode(request, pk):
 
     waiting = Queuedb(barcode=barcode, onoffline=0, storenum=store, createtime=createtime, status=status)
     waiting.save()
-    waiting_cnt = Queuedb.objects.filter(status='줄서는중')
-    return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, waiting_cnt.count()))
+
+    q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
+    q2 = Queuedb.objects.filter(storenum=pk, status='미루기').values('updatetime')
+    q3 = q1.union(q2)
+    return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
+
+
+def updatewaiting(request, pk, barcode):
+    Cbarcode = Queuedb.objects.get(barcode=barcode)
+    Cbarcode.updatetime = datetime.datetime.now()
+    Cbarcode.status = '미루기'
+    Cbarcode.save()
+
+    q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
+    q2 = Queuedb.objects.filter(storenum=pk, status='미루기').values('updatetime')
+    q3 = q1.union(q2)
+    return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
+
+
+def waitingconfirm(request, pk, barcode):
+    Cbarcode = Queuedb.objects.get(barcode=barcode)
+    if Cbarcode.status == '완료' or Cbarcode.status == '취소':
+        return HttpResponse('확인이 불가합니다.')
+    else:
+        q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.updatetime).values('createtime')
+        q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.updatetime).values('updatetime')
+        q3 = q1.union(q2)
+        return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
 
 
 @api_view(['GET', 'POST'])
