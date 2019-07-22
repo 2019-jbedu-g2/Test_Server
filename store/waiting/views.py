@@ -59,7 +59,11 @@ def updatewaiting(request, pk, barcode):
 
 
 def waitingconfirm(request, pk, barcode):
-    Cbarcode = Queuedb.objects.get(barcode=barcode)
+    try:
+        Cbarcode = Queuedb.objects.get(barcode=barcode)
+    except:
+        return HttpResponse('해당 바코드는 없는 바코드입니다.')
+
     if Cbarcode.status == '완료' or Cbarcode.status == '취소':
         return HttpResponse('확인이 불가합니다.')
     else:
