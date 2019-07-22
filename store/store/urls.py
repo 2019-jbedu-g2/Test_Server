@@ -17,6 +17,7 @@ urlpatterns = [
     # api_view url
     path('', views.store_list),
     path('<int:pk>/', views.store_detail),
+    path('waitingcnt/<int:pk>/', views.waitingcnt)
 
     # APIView url
     # path('', views.StoreList.as_view()),
