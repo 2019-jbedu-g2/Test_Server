@@ -4,6 +4,6 @@
  . 줄서기	: /waiting/가게번호
  . 미루기	: /waiting/가게번호/본인바코드
  . 현재순서확인	: /waiting/confirm/가게번호/본인바코드	//우선 http요청으로 처리가능.
- . 오프줄서기	: /account/가게번호
+ . 오프줄서기	: /account/off/가게번호
  . 확인		: /account/confirm/본인바코드
  . 취소		: /account/cancel/본인바코드
