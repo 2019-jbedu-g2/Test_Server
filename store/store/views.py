@@ -21,7 +21,6 @@ def waitingcnt(request, pk):
     q3 = q1.union(q2)
     return HttpResponse("현재 대기인원 수 : %d명" % q3.count())
 
-
 """ api_view Ex. (FBV기반) """
 @api_view(['GET', 'POST'])
 def store_list(request):

@@ -1,11 +1,9 @@
 from django.shortcuts import render
-from rest_framework import status
 from django.http import HttpResponse, Http404
 from .models import Storedb, Queuedb
 from .serializers import QueueSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.views import APIView
 import datetime
 import time as t
 # Create your views here.
@@ -18,8 +16,8 @@ def createoffline(request, pk):
     status = '줄서는중'
 
     waitingoff = Queuedb.objects.create(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
-    # waitingoff = Queuedb(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
-    # waitingoff.save()
+    # waiting = Queuedb(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
+    # waiting.save()
 
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
     q2 = Queuedb.objects.filter(storenum=pk, status='미루기').values('updatetime')
