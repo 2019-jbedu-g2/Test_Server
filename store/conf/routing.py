@@ -5,7 +5,7 @@ from django.conf.urls import url, include
 application = ProtocolTypeRouter({
     #http->django views is added by default
     'websocket':URLRouter(
-            store.routing.websocketpatterns
+            store.routing.websocket_urlpatterns
         )
 })
 urlpatterns = [

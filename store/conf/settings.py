@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store',
     'rest_framework',
     'store',
     'waiting',
@@ -60,7 +59,7 @@ ROOT_URLCONF = 'conf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'store')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,16 +135,20 @@ REST_FRAMEWORK = {
 }
 redis_host = os.environ.get('REDIS_HOST','localhost')
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [('127.0.0.1', 6379)],
-        },
-        #"ROUTING": "store.routing.websocket_routing"
-        #"ROUTING": "store.routing.websocket_urlpatterns"
-    },
-}
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [('127.0.0.1', 6379)],
+#             "channel_capacity":{
+#                 "http.request":200,
+#                 "http.response!*": 10,
+#             }
+#         },
+#         #"ROUTING": "store.routing.websocket_routing"
+#         #"ROUTING": "store.routing.websocket_urlpatterns"
+#     },
+# }
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_RENDERER_CLASSES': (

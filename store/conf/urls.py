@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+import store.views as views
 
 
 urlpatterns = [
@@ -22,5 +23,5 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('waiting/', include('waiting.urls')),
     path('account/', include('account.urls')),
-    path('test/', include('store.routing')),
+    path('queue/',views.queuecheck ),
 ]

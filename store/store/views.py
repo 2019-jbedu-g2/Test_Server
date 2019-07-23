@@ -14,6 +14,11 @@ from .serializers import StoreSerializer
 def index(request, storename):
     return HttpResponse("Hello, world. You're at the {} index".format(storename))
 
+def queuecheck(request, pk):
+    q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중')
+    q2 = Queuedb.objects.filter(storenum=pk, status='미루기')
+    q3 = q1.union(q2)
+    return HttpResponse("현재 대기인원 수 : %d명" % (q3.count()))
 
 def waitingcnt(request, pk):
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중')
