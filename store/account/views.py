@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from rest_framework import status
 from django.http import HttpResponse, Http404
-from .models import Queuedb, Storedb
+from .models import Storedb, Queuedb
 from .serializers import QueueSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 import datetime
 import time as t
 # Create your views here.
@@ -15,8 +17,9 @@ def createoffline(request, pk):
     createtime = datetime.datetime.now()
     status = '줄서는중'
 
-    waiting = Queuedb(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
-    waiting.save()
+    waitingoff = Queuedb.objects.create(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
+    # waitingoff = Queuedb(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
+    # waitingoff.save()
 
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
     q2 = Queuedb.objects.filter(storenum=pk, status='미루기').values('updatetime')
@@ -26,9 +29,10 @@ def createoffline(request, pk):
 
 def checkbarcode(request, barcode):
     try:
-        barcode = Queuedb.objects.get(barcode=barcode)
-        barcode.status = '완료'
-        barcode.save()
+        barcode = Queuedb.objects.filter(barcode=barcode).update(status='완료', updatetime=datetime.datetime.now())
+        # barcode = Queuedb.objects.get(barcode=barcode)
+        # barcode.status = '완료'
+        # barcode.save()
         return HttpResponse('완료되었습니다.')
     except:
         return HttpResponse('바코드가 일치하지 않습니다.')
@@ -36,9 +40,10 @@ def checkbarcode(request, barcode):
 
 def cancelbarcode(request, barcode):
     try:
-        barcode = Queuedb.objects.get(barcode=barcode)
-        barcode.status = '취소'
-        barcode.save()
+        barcode = Queuedb.objects.filter(barcode=barcode).update(status='취소', updatetime=datetime.datetime.now())
+        # barcode = Queuedb.objects.get(barcode=barcode)
+        # barcode.status = '취소'
+        # barcode.save()
         return HttpResponse('취소되었습니다.')
     except:
         return HttpResponse('바코드가 일치하지 않습니다.')
@@ -46,6 +51,8 @@ def cancelbarcode(request, barcode):
 
 @api_view(['GET'])
 def Queuelist(request, pk):
-    queue = Queuedb.objects.filter(storenum=pk)
-    serializer = QueueSerializer(queue, many=True)
-    return Response(serializer.data)
+
+    if request.method == 'GET':
+        queryset = Queuedb.objects.filter(storenum=pk)
+        serializer = QueueSerializer(queryset, many=True)
+        return Response(serializer.data)
