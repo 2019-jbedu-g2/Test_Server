@@ -57,7 +57,7 @@ ROOT_URLCONF = 'conf.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'store')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,6 +140,6 @@ CHANNEL_LAYERS = {
             "hosts": [('127.0.0.1', 6379)],
         },
         #"ROUTING": "store.routing.websocket_routing"
-        "ROUTING": "store.routing.websocket_urlpatterns"
+        #"ROUTING": "store.routing.websocket_urlpatterns"
     },
 }
