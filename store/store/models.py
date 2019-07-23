@@ -45,3 +45,20 @@ class Storedb(models.Model):
     class Meta:
         managed = False
         db_table = 'storedb'
+
+
+class Storeview(models.Model):
+    storenum = models.CharField(primary_key=True, max_length=10)
+    storename = models.CharField(max_length=50)
+    category = models.CharField(max_length=20)
+    latitude = models.CharField(max_length=40)
+    longitude = models.CharField(max_length=40)
+    intro = models.CharField(max_length=200, blank=True, null=True)
+    menu = models.CharField(max_length=300, blank=True, null=True)
+    inform = models.CharField(max_length=500, blank=True, null=True)
+    latencytime = models.CharField(max_length=10)
+    waitingcount = models.IntegerField(default=0)
+
+    class Meta:
+        managed = False
+        db_table = 'storeview'
