@@ -34,10 +34,10 @@ import datetime
 def createbarcode(request, pk):
     store = Storedb.objects.get(storenum=pk)
     barcode = int(t.time())
-    createtime = datetime.datetime.now()
+    # createtime = datetime.datetime.now()
     status = '줄서는중'
 
-    waiting = Queuedb(barcode=barcode, onoffline=0, storenum=store, createtime=createtime, status=status)
+    waiting = Queuedb(barcode=barcode, onoffline=0, storenum=store, status=status)
     waiting.save()
 
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')

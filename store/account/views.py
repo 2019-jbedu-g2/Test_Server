@@ -12,11 +12,10 @@ import time as t
 def createoffline(request, pk):
     store = Storedb.objects.get(storenum=pk)
     barcode = int(t.time())
-    createtime = datetime.datetime.now()
+    # createtime = datetime.datetime.now()
     status = '줄서는중'
 
-    # waitingoff = Queuedb.objects.create(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
-    waitingoff = Queuedb(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
+    waitingoff = Queuedb(barcode=barcode, onoffline=1, storenum=store, status=status)
     waitingoff.save()
 
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
