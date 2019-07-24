@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import status
 from django.http import HttpResponse, Http404
-from .models import Storedb, Queuedb
+from .models import Storedb, Queuedb, Storeview
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -44,7 +44,8 @@ def store_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def store_detail(request, pk):
     try:
-        store = Storedb.objects.get(pk=pk)
+        # store = Storedb.objects.get(pk=pk)
+        store = Storeview.objects.get(pk=pk)
     except:
         return HttpResponse("해당 데이터가 없")
 

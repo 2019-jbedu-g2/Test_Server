@@ -1,4 +1,4 @@
-from .models import Storedb, Accountdb
+from .models import Storedb, Accountdb, Storeview
 from rest_framework import serializers
 
 
@@ -14,4 +14,7 @@ class StoreManagerSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+class StoreviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Storeview
+        fields = '__all__'
