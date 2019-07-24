@@ -135,23 +135,34 @@ REST_FRAMEWORK = {
 }
 redis_host = os.environ.get('REDIS_HOST','localhost')
 
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "channels_redis.core.RedisChannelLayer",
-#         "CONFIG": {
-#             "hosts": [('127.0.0.1', 8000)],
-#             # "channel_capacity":{
-#             #     "http.request":200,
-#             #     "http.response!*": 10,
-#             # },
-#         },
-#         #"ROUTING": "store.routing.websocket_routing"
-#         #"ROUTING": "store.routing.websocket_urlpatterns"
-#     },
-# }
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [('127.0.0.1', 8000)],
+            # "channel_capacity":{
+            #     "http.request":200,
+            #     "http.response!*": 10,
+            # },
+        },
+        #"ROUTING": "store.routing.websocket_routing"
+        #"ROUTING": "store.routing.websocket_urlpatterns"
+    },
+}
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_RENDERER_CLASSES': (
 #         'rest_framework.renderers.JSONRenderer',
 #     )
 # }
+
+
+#https://victorydntmd.tistory.com/262?category=703021
+#https://ssungkang.tistory.com/entry/Django-Channels-%EB%B9%84%EB%8F%99%EA%B8%B0%EC%A0%81-%EC%B1%84%ED%8C%85-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-WebSocket-2
+#https://channels.readthedocs.io/en/latest/topics/channel_layers.html
+#https://darkblank.github.io/development/Django-Channels/
+#https://antilibrary.org/1117
+#https://medium.com/@whj2013123218/%EC%9E%A5%EA%B3%A0-django-channels%EB%A5%BC-%ED%99%9C%EC%9A%A9%ED%95%98%EC%97%AC-%EA%B8%B0%EB%B3%B8-%EC%95%8C%EB%9E%8C-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-%EC%BD%94%EB%93%9C%ED%8E%B8-718ffc62c6c2
+#https://www.sourcelair.com/blog/articles/115/django-channels-chat
+#https://jistol.github.io/docker/2017/09/01/docker-redis/
+#http://redisgate.kr/redis/education/docker_intro.php
