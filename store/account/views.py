@@ -15,9 +15,9 @@ def createoffline(request, pk):
     createtime = datetime.datetime.now()
     status = '줄서는중'
 
-    waitingoff = Queuedb.objects.create(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
-    # waiting = Queuedb(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
-    # waiting.save()
+    # waitingoff = Queuedb.objects.create(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
+    waitingoff = Queuedb(barcode=barcode, onoffline=1, storenum=store, createtime=createtime, status=status)
+    waitingoff.save()
 
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
     q2 = Queuedb.objects.filter(storenum=pk, status='미루기').values('updatetime')

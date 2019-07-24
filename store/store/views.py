@@ -6,20 +6,13 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from .serializers import StoreSerializer
+from .serializers import StoreSerializer, StoreviewSerializer
 
 # Create your views here.
 
 
 def index(request, storename):
     return HttpResponse("Hello, world. You're at the {} index".format(storename))
-
-
-def waitingcnt(request, pk):
-    q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중')
-    q2 = Queuedb.objects.filter(storenum=pk, status='미루기')
-    q3 = q1.union(q2)
-    return HttpResponse("현재 대기인원 수 : %d명" % q3.count())
 
 
 """ api_view Ex. (FBV기반) """
@@ -51,8 +44,7 @@ def store_detail(request, pk):
 
     # 특정 데이터 조회
     if request.method == 'GET':
-        serializer = StoreSerializer(store)
-
+        serializer = StoreviewSerializer(store)
         return Response(serializer.data)
 
     # 특정 데이터 수정
