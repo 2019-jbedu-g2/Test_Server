@@ -24,11 +24,12 @@ class Queuecheck(AsyncWebsocketConsumer):
         self.room_group_name= 'chat_%s' %self.room_name
         #그룹에 join
         # send 등과 같은 동기적인 함수를 비동기적으로 사용하기 위해 async to sync로 합친다.
+        self.accept()
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
-        self.accept()
+
         self.send(text_data=json.dumps([{
             'storename': '2104030245',
         }]))
