@@ -139,11 +139,11 @@ redis_host = os.environ.get('REDIS_HOST','localhost')
 #     "default": {
 #         "BACKEND": "channels_redis.core.RedisChannelLayer",
 #         "CONFIG": {
-#             "hosts": [('127.0.0.1', 6379)],
-#             "channel_capacity":{
-#                 "http.request":200,
-#                 "http.response!*": 10,
-#             }
+#             "hosts": [('127.0.0.1', 8000)],
+#             # "channel_capacity":{
+#             #     "http.request":200,
+#             #     "http.response!*": 10,
+#             # },
 #         },
 #         #"ROUTING": "store.routing.websocket_routing"
 #         #"ROUTING": "store.routing.websocket_urlpatterns"

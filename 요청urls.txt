@@ -7,3 +7,7 @@
  . 오프줄서기	: /account/off/가게번호
  . 확인		: /account/confirm/본인바코드
  . 취소		: /account/cancel/본인바코드
+
+
+py manage.py migrate
+py manage.py createsuperuser
