@@ -22,8 +22,8 @@ class Queuedb(models.Model):
     barcode = models.CharField(primary_key=True, max_length=20)
     onoffline = models.BooleanField()
     storenum = models.ForeignKey('Storedb', models.DO_NOTHING, db_column='storenum')
-    createtime = models.DateTimeField(auto_now_add=True)
-    updatetime = models.DateTimeField(auto_now=True, blank=True, null=True)
+    createtime = models.DateTimeField()
+    updatetime = models.DateTimeField(blank=True, null=True)
     status = models.CharField(max_length=10)
 
     class Meta:
