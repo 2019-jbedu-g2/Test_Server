@@ -20,17 +20,21 @@ class Queuecheck(WebsocketConsumer):
     #websocket이 연결 되었을때 행해질 메소드
     def connect(self):
         # store/routing 에있는 url에서 roomname 가져오기.
+        #room_name = 상점번호 , user_name = 발급된 바코드
         self.room_name = self.scope['url_route']['kwargs']['snum']
         self.room_group_name= 'chat_%s' %self.room_name
+        # url로부터 접속한 인원이 누구인지 체크 함.
+        user_name = self.scope['url_route']['kwargs']['unum']
         #그룹에 join
         # send 등과 같은 동기적인 함수를 비동기적으로 사용하기 위해 async to sync로 합친다.
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name,
             self.channel_name
         )
+        print(user_name)
         self.accept()
         self.send(text_data=json.dumps([{
-            'storename': '2104030245',
+            'storename': self.room_name,
         }]))
         #self.receive("test")
     #연결이 끊길 경우.
