@@ -57,7 +57,7 @@ def updatewaiting(request, pk, barcode):
     q3 = q1.union(q2)
     return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
 
-
+#개인 순번 확인
 def waitingconfirm(request, pk, barcode):
     try:
         Cbarcode = Queuedb.objects.get(barcode=barcode)

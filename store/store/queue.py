@@ -6,15 +6,15 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from channels.layers import get_channel_layer
 
-def announce_likes(sender, instance, created, **kwargs):
-    if created:
-        channel_layer=get_channel_layer()
-        async_to_sync(channel_layer.group_send)(
-            "shares", {
-                "type": "share_message",
-                "message": instance.message,
-            }
-        )
+# def announce_likes(sender, instance, created, **kwargs):
+#     if created:
+#         channel_layer=get_channel_layer()
+#         async_to_sync(channel_layer.group_send)(
+#             "shares", {
+#                 "type": "share_message",
+#                 "message": instance.message,
+#             }
+#         )
 
 class Queuecheck(WebsocketConsumer):
     #websocket이 연결 되었을때 행해질 메소드
@@ -63,7 +63,6 @@ class Queuecheck(WebsocketConsumer):
             #     '당신의 순서는 5번째 입니다'
             # ))
         elif (text_data == 'handover'):
-            print('a')
             async_to_sync(self.channel_layer.group_send)(
                 self.room_group_name,{
                     'type': 'chat_message',
