@@ -100,18 +100,18 @@ class Queuecheck(WebsocketConsumer):
             #     '삭제 되었습니다.'
             # ))
         else:
-            async_to_sync(self.send(text_data=json.dumps)(
+            async_to_sync(self.channel_layer.group_send)(
                 self.room_group_name, {
                     'type': 'chat_message',
-                    'message':'0'
+                    'message':text_data
                 }
-            ))
+            )
 
     def chat_message(self, event):
         message = event['message']
         self.send(text_data=json.dumps({
             'message': message
-        }))
+        },ensure_ascii=False))
         # Num = 5
         # while(Num >0):
         #     # 이 부분이 클라이언트로 다시 메세지를 보내는 부분이다.
