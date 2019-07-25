@@ -1,5 +1,5 @@
 from asgiref.sync import async_to_sync
-from channels.generic.websocket import WebsocketConsumer
+from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 import time
 from django.db.models.signals import post_save
@@ -16,9 +16,9 @@ from channels.layers import get_channel_layer
 #             }
 #         )
 
-class Queuecheck(WebsocketConsumer):
+class Queuecheck(AsyncWebsocketConsumer):
     #websocket이 연결 되었을때 행해질 메소드
-    def connect(self):
+    async def connect(self):
         # store/routing 에있는 url에서 roomname 가져오기.
         #room_name = 상점번호 , user_name = 발급된 바코드
         self.room_name = self.scope['url_route']['kwargs']['snum']
@@ -27,33 +27,33 @@ class Queuecheck(WebsocketConsumer):
         user_name = self.scope['url_route']['kwargs']['unum']
         #그룹에 join
         # send 등과 같은 동기적인 함수를 비동기적으로 사용하기 위해 async to sync로 합친다.
-        async_to_sync(self.channel_layer.group_add)(
+        await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
         print(user_name)
-        self.accept()
-        self.send(text_data=json.dumps([{
+        await self.accept()
+        await self.send(text_data=json.dumps([{
             'storename': self.room_name,
         }]))
         #self.receive("test")
     #연결이 끊길 경우.
-    def disconnect(self, a):
+    async def disconnect(self, a):
         #그룹에서 떠나기.
-        async_to_sync(self.channel_layer.group_discard)(
+        await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
         # pass
     #클라이언트로부터 메세지를 받으면 행해질 메서드
     #아래에서는 메세지를 받으면 다시 클라이언트로 보내는 코드를 작성한 예시이다.
-    def receive(self, text_data):
+    async def receive(self, text_data):
         #text_data_json = json.loads(text_data)
         #message = text_data_json['clientMessage']
         #print(message)
         print(text_data)
         if (text_data == 'count'):
-            async_to_sync(self.channel_layer.group_send)(
+            await self.channel_layer.group_send(
                 self.room_group_name,{
                     'type':'chat_message',
                     'message':'5'
@@ -63,7 +63,7 @@ class Queuecheck(WebsocketConsumer):
             #     '당신의 순서는 5번째 입니다'
             # ))
         elif (text_data == 'handover'):
-            async_to_sync(self.channel_layer.group_send)(
+            await self.channel_layer.group_send(
                 self.room_group_name,{
                     'type': 'chat_message',
                     'message':'4'
@@ -73,7 +73,7 @@ class Queuecheck(WebsocketConsumer):
             #     '미루어졌습니다.'
             # ))
         elif (text_data == 'list'):
-            async_to_sync(self.channel_layer.group_send)(
+            await self.channel_layer.group_send(
                 self.room_group_name,{
                     'type': 'chat_message',
                     'message':'3'
@@ -83,7 +83,7 @@ class Queuecheck(WebsocketConsumer):
             #     '현재 리스트입니다..'
             # ))
         elif (text_data == 'confirm'):
-           async_to_sync(self.channel_layer.group_send)(
+           await self.channel_layer.group_send(
                 self.room_group_name,{
                    'type': 'chat_message',
                    'message':'2'
@@ -93,7 +93,7 @@ class Queuecheck(WebsocketConsumer):
             #      '승인 되었습니다.'
             # ))
         elif (text_data =='cancel'):
-            async_to_sync(self.channel_layer.group_send)(
+            await self.channel_layer.group_send(
                 self.room_group_name,{
                     'type': 'chat_message',
                     'message':'1'
@@ -103,16 +103,16 @@ class Queuecheck(WebsocketConsumer):
             #     '삭제 되었습니다.'
             # ))
         else:
-            async_to_sync(self.channel_layer.group_send)(
+          await self.channel_layer.group_send(
                 self.room_group_name, {
                     'type': 'chat_message',
                     'message':text_data
                 }
             )
 
-    def chat_message(self, event):
+    async def chat_message(self, event):
         message = event['message']
-        self.send(text_data=json.dumps({
+        await self.send(text_data=json.dumps({
             'message': message
         },ensure_ascii=False))
         # Num = 5
