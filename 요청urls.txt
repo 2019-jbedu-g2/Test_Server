@@ -7,6 +7,8 @@
  . 오프줄서기	: /account/off/가게번호
  . 확인		: /account/confirm/본인바코드
  . 취소		: /account/cancel/본인바코드
+ . 웹소켓연결	: /queue/가게번호/master		//가게 대기열 리스트
+		: /queue/가게번호/본인바코드		//자기 대기열 순서
 
 
 py manage.py migrate
