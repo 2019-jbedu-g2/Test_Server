@@ -57,7 +57,7 @@ def updatewaiting(request, pk, barcode):
     q3 = q1.union(q2)
     return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
 
-
+#개인 순번 확인
 def waitingconfirm(request, pk, barcode):
     try:
         Cbarcode = Queuedb.objects.get(barcode=barcode)
@@ -66,12 +66,16 @@ def waitingconfirm(request, pk, barcode):
 
     if Cbarcode.status == '완료' or Cbarcode.status == '취소':
         return HttpResponse('확인이 불가합니다.')
+    elif Cbarcode.status == '줄서는중':
+        q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.createtime).values('createtime')
+        q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.createtime).values('updatetime')
+        q3 = q1.union(q2)
+        return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
     else:
         q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.updatetime).values('createtime')
         q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.updatetime).values('updatetime')
         q3 = q1.union(q2)
-        return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
-
+        return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
 
 @api_view(['GET', 'POST'])
 def waiting_list(request):

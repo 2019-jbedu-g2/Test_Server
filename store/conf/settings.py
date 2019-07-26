@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4e8#c$m9@)r-7-(ab%o7if0+2_afs2a$1&l4@4hfea=38q95tl'
+SECRET_KEY = '@r^r&%#38bs&7)rp89s5v8$cg9)kcnj5x&l-e_%ljz0j_(3i0q'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -39,8 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'store',
-    'account',
     'waiting',
+    'account',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -70,7 +71,7 @@ TEMPLATES = [
         },
     },
 ]
-
+ASGI_APPLICATION = 'conf.routing.application'
 WSGI_APPLICATION = 'conf.wsgi.application'
 
 
@@ -132,9 +133,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
+# CHANNEL_LAYERS BACKEND - REDIS SETTING
+redis_host = os.environ.get('REDIS_HOST','localhost')
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_RENDERER_CLASSES': (
-#         'rest_framework.renderers.JSONRenderer',
-#     )
-# }
+CHANNEL_LAYERS = {
+    "default": {
+         "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
