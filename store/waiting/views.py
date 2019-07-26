@@ -77,7 +77,6 @@ def waitingconfirm(request, pk, barcode):
         q3 = q1.union(q2)
         return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
 
-
 @api_view(['GET', 'POST'])
 def waiting_list(request):
     # 전체 데이터 조회
