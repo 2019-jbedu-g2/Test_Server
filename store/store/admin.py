@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import Storedb, Accountdb, Queuedb
 
-
 # Register your models here.
+
 
 class StoreAdmin(admin.ModelAdmin):
     fieldsets = [

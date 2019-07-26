@@ -2,7 +2,6 @@ from django.conf.urls import url
 from django.urls import path, include
 from .views import StoreViewSet
 from . import views
-#from .views import fetch_store, CreateBarcode
 from rest_framework.routers import DefaultRouter
 
 
@@ -17,7 +16,6 @@ urlpatterns = [
     # api_view url
     path('', views.store_list),
     path('<int:pk>/', views.store_detail),
-    path('waitingcnt/<int:pk>/', views.waitingcnt)
 
     # APIView url
     # path('', views.StoreList.as_view()),
