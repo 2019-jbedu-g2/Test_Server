@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 
+# DB의 테이블를 사용하기 위해 모델화 시키는 부분
 class Accountdb(models.Model):
     storenum = models.ForeignKey('Storedb', models.DO_NOTHING, db_column='storenum')
     storeid = models.CharField(primary_key=True, max_length=20)
@@ -17,7 +18,7 @@ class Queuedb(models.Model):
     barcode = models.CharField(primary_key=True, max_length=20)
     onoffline = models.BooleanField()
     storenum = models.ForeignKey('Storedb', models.DO_NOTHING, db_column='storenum')
-    createtime = models.DateTimeField(auto_now_add=True)
+    createtime = models.DateTimeField(auto_now_add=True)    # 자동으로 현재시간 입력
     updatetime = models.DateTimeField(blank=True, null=True)
     status = models.CharField(max_length=10)
 

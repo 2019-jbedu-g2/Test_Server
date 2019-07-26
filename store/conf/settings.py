@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
+# 아래에 생성한 앱이나 서드파티를 등록해야 작동을 함.
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -78,6 +78,7 @@ WSGI_APPLICATION = 'conf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DB설정하는 부분.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
@@ -138,7 +139,7 @@ redis_host = os.environ.get('REDIS_HOST','localhost')
 
 CHANNEL_LAYERS = {
     "default": {
-         "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [('127.0.0.1', 6379)],
         },

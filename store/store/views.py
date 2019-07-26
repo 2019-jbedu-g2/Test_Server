@@ -11,14 +11,12 @@ from .serializers import StoreSerializer, StoreviewSerializer
 # Create your views here.
 
 
-def index(request, storename):
-    return HttpResponse("Hello, world. You're at the {} index".format(storename))
-
 def queuecheck(request, pk):
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중')
     q2 = Queuedb.objects.filter(storenum=pk, status='미루기')
     q3 = q1.union(q2)
-    return HttpResponse("현재 대기인원 수 : %d명" % (q3.count()))
+    return HttpResponse("현재 대기인원 수 : %d명" % q3.count())
+
 
 """ api_view Ex. (FBV기반) """
 @api_view(['GET', 'POST'])
@@ -112,7 +110,7 @@ def store_detail(request, pk):
 #         return HttpResponse("%s가 삭제되었습니다." % pk)
 
 
-""" ViewSet Ex. """
+# """ ViewSet Ex. """
 # class StoreViewSet(viewsets.ModelViewSet):
 #     queryset = Storedb.objects.all().order_by('-storenum')
 #     serializer_class = StoreSerializer

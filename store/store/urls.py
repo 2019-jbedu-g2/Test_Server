@@ -14,8 +14,8 @@ urlpatterns = [
     # path('<int:pk>/', views.index),
 
     # api_view url
-    path('', views.store_list),
-    path('<int:pk>/', views.store_detail),
+    path('', views.store_list),             # 전체 가게 리스트
+    path('<int:pk>/', views.store_detail),  # 가게 정보(대기열 포함)
 
     # APIView url
     # path('', views.StoreList.as_view()),

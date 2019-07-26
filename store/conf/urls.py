@@ -22,5 +22,5 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('waiting/', include('waiting.urls')),
     path('account/', include('account.urls')),
-    path('queue/',views.queuecheck ),
+    path('queue/', views.queuecheck),           # 웹소켓 접속
 ]

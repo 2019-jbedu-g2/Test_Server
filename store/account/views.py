@@ -9,8 +9,11 @@ import time as t
 # Create your views here.
 
 
+# id 체크
 def checkid(request, id, pwd):
+    # id 인자와 일치하는 레코드를 검색하여 레코드에서 storenum, storepwd 값을 가져옴.
     store = Accountdb.objects.filter(storeid=id).values('storenum', 'storepwd')
+    # 리스트형태로 넘어오지만 단일 객체이므로 0인덱스 값과 리스트 안에 딕셔너리의 키값으로 value를 가져옴.
     storenum = store[0]['storenum']
     storepwd = store[0]['storepwd']
     storename = Storedb.objects.get(storenum=storenum)
@@ -21,10 +24,10 @@ def checkid(request, id, pwd):
         return HttpResponse("%s, %s" % (storenum, storename.storename))
 
 
+# 오프라인 줄서기
 def createoffline(request, pk):
     store = Storedb.objects.get(storenum=pk)
     barcode = int(t.time())
-    # createtime = datetime.datetime.now()
     status = '줄서는중'
 
     waitingoff = Queuedb(barcode=barcode, onoffline=1, storenum=store, status=status)
@@ -36,6 +39,7 @@ def createoffline(request, pk):
     return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
 
 
+# 바코드 확인하기
 def checkbarcode(request, barcode):
     try:
         check = Queuedb.objects.filter(barcode=barcode).update(status='완료', updatetime=datetime.datetime.now())
@@ -47,6 +51,7 @@ def checkbarcode(request, barcode):
         return HttpResponse('바코드가 일치하지 않습니다.')
 
 
+# 바코드 취소하기
 def cancelbarcode(request, barcode):
     try:
         cancel = Queuedb.objects.filter(barcode=barcode).update(status='취소', updatetime=datetime.datetime.now())
@@ -57,7 +62,7 @@ def cancelbarcode(request, barcode):
     except:
         return HttpResponse('바코드가 일치하지 않습니다.')
 
-
+# 해당 가게의 대기열 리스트
 @api_view(['GET'])
 def Queuelist(request, pk):
 

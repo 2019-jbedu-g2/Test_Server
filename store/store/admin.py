@@ -4,6 +4,7 @@ from .models import Storedb, Accountdb, Queuedb
 # Register your models here.
 
 
+# 관리자 페이지 수정
 class StoreAdmin(admin.ModelAdmin):
     fieldsets = [
         (None,          {'fields': ['storenum']}),
@@ -49,6 +50,7 @@ class QueueAdmin(admin.ModelAdmin):
     ordering = ('createtime',)
 
 
+# 관리자 페이지에 등록
 admin.site.register(Storedb, StoreAdmin)
 admin.site.register(Accountdb, StoreManager)
 admin.site.register(Queuedb, QueueAdmin)

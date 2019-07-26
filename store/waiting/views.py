@@ -31,24 +31,29 @@ import datetime
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# 바코드생성
 def createbarcode(request, pk):
+
+    # pk 인자와 일치하는 레코드를 객체화시킴. get은 단일 객체일 경우 사용함.
     store = Storedb.objects.get(storenum=pk)
     barcode = int(t.time())
-    # createtime = datetime.datetime.now()
     status = '줄서는중'
 
+    # 새로운 객체(레코드)를 생성, storenum는 외래키이므로 store객체에서 받아옴.
     waiting = Queuedb(barcode=barcode, onoffline=0, storenum=store, status=status)
     waiting.save()
 
+    # 필요한 정도가 두 개의 필드에 있으므로 union으로 정렬시킴.
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
     q2 = Queuedb.objects.filter(storenum=pk, status='미루기').values('updatetime')
     q3 = q1.union(q2)
     return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
 
 
+# 사용자 미루기
 def updatewaiting(request, pk, barcode):
     Cbarcode = Queuedb.objects.get(barcode=barcode)
-    Cbarcode.updatetime = datetime.datetime.now()
+    Cbarcode.updatetime = datetime.datetime.now()   # 객체의 값 변경
     Cbarcode.status = '미루기'
     Cbarcode.save()
 
@@ -57,25 +62,6 @@ def updatewaiting(request, pk, barcode):
     q3 = q1.union(q2)
     return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
 
-#개인 순번 확인
-def waitingconfirm(request, pk, barcode):
-    try:
-        Cbarcode = Queuedb.objects.get(barcode=barcode)
-    except:
-        return HttpResponse('해당 바코드는 없는 바코드입니다.')
-
-    if Cbarcode.status == '완료' or Cbarcode.status == '취소':
-        return HttpResponse('확인이 불가합니다.')
-    elif Cbarcode.status == '줄서는중':
-        q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.createtime).values('createtime')
-        q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.createtime).values('updatetime')
-        q3 = q1.union(q2)
-        return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count()-1))
-    else:
-        q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.updatetime).values('createtime')
-        q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.updatetime).values('updatetime')
-        q3 = q1.union(q2)
-        return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
 
 @api_view(['GET', 'POST'])
 def waiting_list(request):

@@ -15,10 +15,9 @@ urlpatterns = [
     # path('<int:pk>/', views.index),
 
     # api_view url
-    path('', views.waiting_list),
-    path('<int:pk>/', views.createbarcode),
-    path('<int:pk>/<int:barcode>/', views.updatewaiting),
-    path('confirm/<int:pk>/<int:barcode>/', views.waitingconfirm)
+    path('', views.waiting_list),                           # 대기열 리스트
+    path('<int:pk>/', views.createbarcode),                 # 바코드생성
+    path('<int:pk>/<int:barcode>/', views.updatewaiting),   # 미루기
 
     # APIView url
     # path('', views.WaitingList.as_view()),
