@@ -11,11 +11,12 @@ class Queuecheck(AsyncWebsocketConsumer):
     room_name = ''
     user_name = ''
     # websocket이 연결 되었을때 행해질 메소드
+
     async def connect(self):
         # store/routing 에있는 url에서 가게 번호와 바코드 번호 가져오기.
-        #room_name = 상점번호 , user_name = 발급된 바코드
+        # room_name = 상점번호 , user_name = 발급된 바코드
         self.room_name = self.scope['url_route']['kwargs']['snum']
-        self.room_group_name= 'chat_%s' %self.room_name
+        self.room_group_name = 'chat_%s' % self.room_name
         # url로부터 접속한 인원이 누구인지 체크 함.
         self.user_name = self.scope['url_route']['kwargs']['unum']
 
@@ -38,10 +39,10 @@ class Queuecheck(AsyncWebsocketConsumer):
     # 클라이언트로부터 메세지를 받으면 행해질 메서드
     # 메세지를 받으면 다시 클라이언트로 메세지를 되돌려 줌.
     async def receive(self, text_data):
-          await self.channel_layer.group_send(
-                self.room_group_name, {
-                    'type': 'chat_message',
-                    'message':text_data
+        await self.channel_layer.group_send(
+            self.room_group_name, {
+                'type': 'chat_message',
+                'message': text_data
                 }
             )
 
