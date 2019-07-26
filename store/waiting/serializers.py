@@ -1,4 +1,4 @@
-from .models import Storedb, Queuedb
+from .models import Queuedb
 from rest_framework import serializers
 
 

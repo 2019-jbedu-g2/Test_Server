@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from rest_framework import status
 from django.http import HttpResponse, Http404
-from .models import Storedb, Queuedb
+from .models import Storedb, Queuedb, Storeview
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.views import APIView
-from .serializers import StoreSerializer
+from .serializers import StoreSerializer, StoreviewSerializer
 
 # Create your views here.
 
@@ -15,12 +15,6 @@ def index(request, storename):
     return HttpResponse("Hello, world. You're at the {} index".format(storename))
 
 def queuecheck(request, pk):
-    q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중')
-    q2 = Queuedb.objects.filter(storenum=pk, status='미루기')
-    q3 = q1.union(q2)
-    return HttpResponse("현재 대기인원 수 : %d명" % (q3.count()))
-
-def waitingcnt(request, pk):
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중')
     q2 = Queuedb.objects.filter(storenum=pk, status='미루기')
     q3 = q1.union(q2)
@@ -48,14 +42,14 @@ def store_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def store_detail(request, pk):
     try:
-        store = Storedb.objects.get(pk=pk)
+        # store = Storedb.objects.get(pk=pk)
+        store = Storeview.objects.get(pk=pk)
     except:
         return HttpResponse("해당 데이터가 없")
 
     # 특정 데이터 조회
     if request.method == 'GET':
-        serializer = StoreSerializer(store)
-
+        serializer = StoreviewSerializer(store)
         return Response(serializer.data)
 
     # 특정 데이터 수정
