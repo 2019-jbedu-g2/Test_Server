@@ -10,13 +10,15 @@ import time as t
 
 
 def checkid(request, id, pwd):
-    storeid = Accountdb.objects.get(storeid=id)
-    storename = Storedb.objects.get(storenum=storeid.storenum)
-    # storepwd = Accountdb.objects.get(storepwd=pwd)
-    if storeid.storepwd != pwd:
+    store = Accountdb.objects.filter(storeid=id).values('storenum', 'storepwd')
+    storenum = store[0]['storenum']
+    storepwd = store[0]['storepwd']
+    storename = Storedb.objects.get(storenum=storenum)
+
+    if storepwd != pwd:
         return HttpResponse('아이디랑 비밀번호가 다릅니다.')
     else:
-        return HttpResponse(storeid.storenum, storename.storename)
+        return HttpResponse("%s, %s" % (storenum, storename.storename))
 
 
 def createoffline(request, pk):

@@ -4,6 +4,8 @@ from .models import Queuedb
 from .serializers import QueueSerializer
 
 # send 등과 같은 동기적인 함수를 비동기적으로 사용하기 위해 async / await로 변경한다.
+
+
 class Queuecheck(AsyncWebsocketConsumer):
     # 방 이름과 유저 바코드 번호 받는 변수 선언.
     room_name = ''
@@ -25,16 +27,16 @@ class Queuecheck(AsyncWebsocketConsumer):
         # 접속 수락
         await self.accept()
 
-    #연결이 끊길 경우.
+    # 연결이 끊길 경우.
     async def disconnect(self, a):
-        #그룹에서 떠나기.
+        # 그룹에서 떠나기.
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
-    #클라이언트로부터 메세지를 받으면 행해질 메서드
-    #메세지를 받으면 다시 클라이언트로 메세지를 되돌려 줌.
+    # 클라이언트로부터 메세지를 받으면 행해질 메서드
+    # 메세지를 받으면 다시 클라이언트로 메세지를 되돌려 줌.
     async def receive(self, text_data):
           await self.channel_layer.group_send(
                 self.room_group_name, {
@@ -59,7 +61,7 @@ class Queuecheck(AsyncWebsocketConsumer):
                 Cbarcode = Queuedb.objects.get(barcode=barcode)
                 if Cbarcode.status == '완료' or Cbarcode.status == '취소':  # 완료 처리 되거나 취소 처리된 바코드의 경우.
                     message = '확인이 불가합니다.'
-                elif Cbarcode.status == '줄서는중':                         #  줄서는 중 일경우 (온라인/오프라인 모두)
+                elif Cbarcode.status == '줄서는중':                         # 줄서는 중 일경우 (온라인/오프라인 모두)
                     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.createtime).values('createtime')
                     q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.createtime).values('updatetime')
                     q3 = q1.union(q2)
