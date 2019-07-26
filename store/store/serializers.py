@@ -1,4 +1,4 @@
-from .models import Storedb, Accountdb, Storeview
+from .models import Storedb, Accountdb, Storeview, Queuedb
 from rest_framework import serializers
 
 
@@ -18,3 +18,10 @@ class StoreviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Storeview
         fields = '__all__'
+
+
+class QueueSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Queuedb
+        fields = ('barcode', 'onoffline', 'status')
+

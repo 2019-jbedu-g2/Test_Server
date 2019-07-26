@@ -1,12 +1,22 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
-from .models import Storedb, Queuedb
+from .models import Storedb, Queuedb, Accountdb
 from .serializers import QueueSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import datetime
 import time as t
 # Create your views here.
+
+
+def checkid(request, id, pwd):
+    storeid = Accountdb.objects.get(storeid=id)
+    storename = Storedb.objects.get(storenum=storeid.storenum)
+    # storepwd = Accountdb.objects.get(storepwd=pwd)
+    if storeid.storepwd != pwd:
+        return HttpResponse('아이디랑 비밀번호가 다릅니다.')
+    else:
+        return HttpResponse(storeid.storenum, storename.storename)
 
 
 def createoffline(request, pk):

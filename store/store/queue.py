@@ -1,6 +1,8 @@
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+from .models import Queuedb
+from .serializers import QueueSerializer
 import time
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -18,24 +20,26 @@ from channels.layers import get_channel_layer
 
 class Queuecheck(AsyncWebsocketConsumer):
     #websocket이 연결 되었을때 행해질 메소드
+    room_name = ''
+    user_name = ''
     async def connect(self):
         # store/routing 에있는 url에서 roomname 가져오기.
         #room_name = 상점번호 , user_name = 발급된 바코드
         self.room_name = self.scope['url_route']['kwargs']['snum']
         self.room_group_name= 'chat_%s' %self.room_name
         # url로부터 접속한 인원이 누구인지 체크 함.
-        user_name = self.scope['url_route']['kwargs']['unum']
+        self.user_name = self.scope['url_route']['kwargs']['unum']
         #그룹에 join
         # send 등과 같은 동기적인 함수를 비동기적으로 사용하기 위해 async to sync로 합친다.
         await self.channel_layer.group_add(
             self.room_group_name,
             self.channel_name
         )
-        print(user_name)
+        print(self.user_name)
         await self.accept()
-        await self.send(text_data=json.dumps([{
-            'storename': self.room_name,
-        }]))
+        # await self.send(text_data=json.dumps([{
+        #     'storename': self.room_name,
+        # }]))
         #self.receive("test")
     #연결이 끊길 경우.
     async def disconnect(self, a):
@@ -111,10 +115,35 @@ class Queuecheck(AsyncWebsocketConsumer):
             )
 
     async def chat_message(self, event):
-        message = event['message']
+        #message = event['message']
+        pk = self.room_name
+        barcode = self.user_name
+
+        if barcode == 'master':
+            queryset = Queuedb.objects.filter(storenum=pk)
+            serializer = QueueSerializer(queryset, many=True)
+            message = serializer.data
+        else:
+            try:
+                Cbarcode = Queuedb.objects.get(barcode=barcode)
+                if Cbarcode.status == '완료' or Cbarcode.status == '취소':
+                    message = '확인이 불가합니다.'
+                elif Cbarcode.status == '줄서는중':
+                    q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.createtime).values('createtime')
+                    q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.createtime).values('updatetime')
+                    q3 = q1.union(q2)
+                    message = q3.count() - 1
+                else:
+                    q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중', createtime__lte=Cbarcode.updatetime).values('createtime')
+                    q2 = Queuedb.objects.filter(storenum=pk, status='미루기', updatetime__lte=Cbarcode.updatetime).values('updatetime')
+                    q3 = q1.union(q2)
+                    message = q3.count() - 1
+            except:
+                message = '해당 바코드는 없는 바코드입니다.'
+        print(message)
         await self.send(text_data=json.dumps({
             'message': message
-        },ensure_ascii=False))
+        }, ensure_ascii=False))
         # Num = 5
         # while(Num >0):
         #     # 이 부분이 클라이언트로 다시 메세지를 보내는 부분이다.
