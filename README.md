@@ -41,6 +41,8 @@
  
  . 설치 후 Channels 검색 후 install package 선택
  
+ . 설치 후 Channels-redis 검색 후 install package 
+ 
  . 창 닫고 apply - ok 후 창 닫기
  
  . 혹시 different sdk name 발생시 project interpreter입력창에서 show all 클릭 목록창 다 지우고 add(+)
