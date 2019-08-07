@@ -55,3 +55,5 @@ URL 요청 내역
  . 확인		: /account/confirm/본인바코드
  . 취소		: /account/cancel/본인바코드
  . 매장앱 로그인 : /login/가게아이디/가게비밀번호
+
+
