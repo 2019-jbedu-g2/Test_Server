@@ -27,7 +27,7 @@
  
  . 왼쪽 트리에서 venv폴더가 생성된 걸 확인가능
  
- . 다음은 인터프리터 설정과 장고, 오라클 라이브러리, rest-framework 설치
+> 인터프리터 설정과 장고, 오라클 라이브러리, rest-framework 설치
  
  . File-settings-project:XXXXXX-project Interpreter-project Interpreter입력창 옆에 설정버튼 클릭- add클릭-ok클릭
  
@@ -50,6 +50,8 @@
  . terminal에서 cd venv 입력 / cd Scripts 입력 / activate 입력하여 가상환경 진입 프롬프트가 (venv)현재경로 > 이렇게 바뀜
  
  . 다시 terminal에서 cd.. / cd.. /cd store 입력 후 
+ 
+ > DB구축 / DB와 서버 동기화 / Redis backend서버 설치
  
  . oracle express 18c에 데이터 베이스 파일 구축.
  
