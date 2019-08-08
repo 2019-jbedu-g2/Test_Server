@@ -42,7 +42,7 @@ def createoffline(request, pk):
 # 바코드 확인하기
 def checkbarcode(request, barcode):
     try:
-        check = Queuedb.objects.filter(barcode=barcode).update(status='완료', updatetime=datetime.datetime.now())
+        check = Queuedb.objects.get(barcode=barcode).update(status='완료', updatetime=datetime.datetime.now())
         # barcode = Queuedb.objects.get(barcode=barcode)
         # barcode.status = '완료'
         # barcode.save()
@@ -54,7 +54,7 @@ def checkbarcode(request, barcode):
 # 바코드 취소하기
 def cancelbarcode(request, barcode):
     try:
-        cancel = Queuedb.objects.filter(barcode=barcode).update(status='취소', updatetime=datetime.datetime.now())
+        cancel = Queuedb.objects.get(barcode=barcode).update(status='취소', updatetime=datetime.datetime.now())
         # barcode = Queuedb.objects.get(barcode=barcode)
         # barcode.status = '취소'
         # barcode.save()
@@ -67,6 +67,6 @@ def cancelbarcode(request, barcode):
 def Queuelist(request, pk):
 
     if request.method == 'GET':
-        queryset = Queuedb.objects.filter(storenum=pk)
+        queryset = Queuedb.objects.filter(storenum=pk).order_by('barcode')
         serializer = QueueSerializer(queryset, many=True)
         return Response(serializer.data)
