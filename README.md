@@ -55,7 +55,7 @@
  
  > DB구축 / DB와 서버 동기화 / Redis backend서버 설치
  
- . oracle express 18c에 데이터 베이스 파일 구축.
+ . oracle express 18c에 SQL파일 폴더 내 SERVERDB.SQL 파일로 데이터 베이스 파일 구축.
  
  . terminal 에서 py manage.py migrate 를 입력.
  
