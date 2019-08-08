@@ -35,7 +35,7 @@
  
  . 설치 후 cx-Oracle 검색 후 version 7.2.0 확인 후 install package 클릭
  
- . 설치 후 django-rest-framework 검색 후 version 0.1.0 확인후 install package클릭
+ . 설치 후 djangorestframework 검색 후 install package클릭
  
  . 설치 후 pywin32검색 후 install package 선택
  
