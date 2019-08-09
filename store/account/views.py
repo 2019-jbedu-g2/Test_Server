@@ -44,6 +44,7 @@ def checkbarcode(request, barcode):
     try:
         # check = Queuedb.objects.get(barcode=barcode).update(status='완료', updatetime=datetime.datetime.now())
         barcode = Queuedb.objects.get(barcode=barcode)
+        barcode.updatetime = datetime.datetime.now()
         barcode.status = '완료'
         barcode.save()
         return HttpResponse('완료되었습니다.')
@@ -56,6 +57,7 @@ def cancelbarcode(request, barcode):
     try:
         # cancel = Queuedb.objects.get(barcode=barcode).update(status='취소', updatetime=datetime.datetime.now())
         barcode = Queuedb.objects.get(barcode=barcode)
+        barcode.updatetime = datetime.datetime.now()
         barcode.status = '취소'
         barcode.save()
         return HttpResponse('취소되었습니다.')
