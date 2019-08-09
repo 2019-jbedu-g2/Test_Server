@@ -42,10 +42,10 @@ def createoffline(request, pk):
 # 바코드 확인하기
 def checkbarcode(request, barcode):
     try:
-        check = Queuedb.objects.get(barcode=barcode).update(status='완료', updatetime=datetime.datetime.now())
-        # barcode = Queuedb.objects.get(barcode=barcode)
-        # barcode.status = '완료'
-        # barcode.save()
+        # check = Queuedb.objects.get(barcode=barcode).update(status='완료', updatetime=datetime.datetime.now())
+        barcode = Queuedb.objects.get(barcode=barcode)
+        barcode.status = '완료'
+        barcode.save()
         return HttpResponse('완료되었습니다.')
     except:
         return HttpResponse('바코드가 일치하지 않습니다.')
@@ -54,10 +54,10 @@ def checkbarcode(request, barcode):
 # 바코드 취소하기
 def cancelbarcode(request, barcode):
     try:
-        cancel = Queuedb.objects.get(barcode=barcode).update(status='취소', updatetime=datetime.datetime.now())
-        # barcode = Queuedb.objects.get(barcode=barcode)
-        # barcode.status = '취소'
-        # barcode.save()
+        # cancel = Queuedb.objects.get(barcode=barcode).update(status='취소', updatetime=datetime.datetime.now())
+        barcode = Queuedb.objects.get(barcode=barcode)
+        barcode.status = '취소'
+        barcode.save()
         return HttpResponse('취소되었습니다.')
     except:
         return HttpResponse('바코드가 일치하지 않습니다.')
