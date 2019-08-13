@@ -37,7 +37,7 @@ def createoffline(request, pk, phonenum):
     q1 = Queuedb.objects.filter(storenum=pk, status='줄서는중').values('createtime')
     q2 = Queuedb.objects.filter(storenum=pk, status='미루기').values('updatetime')
     q3 = q1.union(q2)
-    return HttpResponse("%d, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
+    return HttpResponse("%s, 현재 대기인원 수 : %d명" % (barcode, q3.count() - 1))
 
 
 # 바코드 확인하기

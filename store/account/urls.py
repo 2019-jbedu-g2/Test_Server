@@ -6,7 +6,7 @@ from . import views
 urlpatterns = [
     path('login/<str:id>/<str:pwd>/', views.checkid),    # 로그인
     path('<int:pk>/', views.Queuelist),                  # 가게 대기열 리스트
-    path('off/<int:pk>/<int:phonenum>/', views.createoffline),          # 오프라인 줄서기
-    path('confirm/<int:barcode>/', views.checkbarcode),  # 바코드 확인하기
-    path('cancel/<int:barcode>/', views.cancelbarcode)   # 바코드 취소하기
+    path('off/<int:pk>/<str:phonenum>/', views.createoffline),          # 오프라인 줄서기
+    path('confirm/<str:barcode>/', views.checkbarcode),  # 바코드 확인하기
+    path('cancel/<str:barcode>/', views.cancelbarcode)   # 바코드 취소하기
 ]

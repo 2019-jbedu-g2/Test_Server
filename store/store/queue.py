@@ -54,7 +54,7 @@ class Queuecheck(AsyncWebsocketConsumer):
         # 이벤트가 일어 날 때마다 연결된 모든 클라이언트들이 데이터를 다시 받아야 하나 서로 다른 값을 받아야 하므로
         # 가게인지 일반 클라이언트인지 구별하여 서로 필요한 값을 전송한다.
         if barcode == 'master':         # 가게일 경우엔 전체 대기열을 json으로 묶어 전송
-            queryset = Queuedb.objects.filter(storenum=pk).order_by('barcode')
+            queryset = Queuedb.objects.filter(storenum=pk).order_by('updatetime')
             serializer = QueueSerializer(queryset, many=True)
             message = serializer.data
         else:

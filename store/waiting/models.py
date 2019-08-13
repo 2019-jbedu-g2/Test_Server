@@ -18,7 +18,7 @@ class Queuedb(models.Model):
     onoffline = models.BooleanField()
     storenum = models.ForeignKey('Storedb', models.DO_NOTHING, db_column='storenum')
     createtime = models.DateTimeField(auto_now_add=True)
-    updatetime = models.DateTimeField(blank=True, null=True)
+    updatetime = models.DateTimeField(auto_now=True, blank=True, null=True)
     status = models.CharField(max_length=10)
 
     class Meta:
