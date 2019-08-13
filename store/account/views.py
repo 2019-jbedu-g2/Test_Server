@@ -25,9 +25,10 @@ def checkid(request, id, pwd):
 
 
 # 오프라인 줄서기
-def createoffline(request, pk):
+def createoffline(request, pk, phonenum):
     store = Storedb.objects.get(storenum=pk)
-    barcode = int(t.time())
+    barcode = phonenum
+    # barcode = int(t.time())
     status = '줄서는중'
 
     waitingoff = Queuedb(barcode=barcode, onoffline=1, storenum=store, status=status)
