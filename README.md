@@ -15,8 +15,6 @@
  
  . Directory는 적절하게 생성바람.
  
- . VCS-Git-branches-origin/django-server-rebase current onto selected
- 
  . 실행할 때마다 git로그인이 귀찮으면 File-settings-version control-github-add(+)
  
  . 가상환경 만들기
